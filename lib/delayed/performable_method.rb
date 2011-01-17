@@ -5,6 +5,14 @@ module Delayed
     delegate :method, :to => :object
 
     def initialize(object, method_name, args)
+      object.establish_connection(
+        :adapter => 'mysql',
+    	  :host => 'localhost',
+    	  :database => 'new_dev',
+    	  :username => 'root',
+    	  :password => ''
+      )
+
       raise NoMethodError, "undefined method `#{method_name}' for #{object.inspect}" unless object.respond_to?(method_name, true)
 
       self.object       = object
