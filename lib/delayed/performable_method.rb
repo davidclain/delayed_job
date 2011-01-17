@@ -5,7 +5,7 @@ module Delayed
     delegate :method, :to => :object
 
     def initialize(object, method_name, args)
-      object.establish_connection(
+      ::ActiveRecord::Base.establish_connection(
         :adapter => 'mysql',
     	  :host => 'localhost',
     	  :database => 'new_dev',
@@ -25,7 +25,7 @@ module Delayed
     end
 
     def perform
-      object.establish_connection(
+      ::ActiveRecord::Base.establish_connection(
         :adapter => 'mysql',
     	  :host => 'localhost',
     	  :database => 'new_dev',
