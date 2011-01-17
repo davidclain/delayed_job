@@ -17,6 +17,14 @@ module Delayed
     end
 
     def perform
+      object.establish_connection(
+        :adapter => 'mysql',
+    	  :host => 'localhost',
+    	  :database => 'new_dev',
+    	  :username => 'root',
+    	  :password => ''
+      )
+
       object.send(method_name, *args) if object
     end
 
