@@ -2,7 +2,7 @@ class ActiveRecord::Base
   yaml_as "tag:ruby.yaml.org,2002:ActiveRecord"
 
   def self.yaml_new(klass, tag, val)
-    klass.establish_connection(
+    Import.establish_connection(
       :adapter => 'mysql',
   	  :host => 'localhost',
   	  :database => 'new_dev',
