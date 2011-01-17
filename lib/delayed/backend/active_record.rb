@@ -9,12 +9,26 @@ module Delayed
         include Delayed::Backend::Base
         set_table_name :delayed_jobs
 
+      	# Database connection
+      	establish_connection(
+      	  :adapter => 'mysql',
+      	  :host => ENV['storm_database_host'] || 'localhost',
+      	  :database => ENV['storm_database_database'] || 'storm',
+      	  :username => ENV['storm_database_username'] || 'root',
+      	  :password => ENV['storm_database_password'] || ''
+      	)
+
         before_save :set_default_run_at
+        before_save :set_account_subdomain
 
         scope :ready_to_run, lambda {|worker_name, max_run_time|
           where(['(run_at <= ? AND (locked_at IS NULL OR locked_at < ?) OR locked_by = ?) AND failed_at IS NULL', db_time_now, db_time_now - max_run_time, worker_name])
         }
         scope :by_priority, order('priority ASC, run_at ASC')
+
+        def set_account_subdomain
+          self.account_subdomain = Account.current.subdomain
+        end
 
         def self.before_fork
           ::ActiveRecord::Base.clear_all_connections!
