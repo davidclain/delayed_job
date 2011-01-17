@@ -35,7 +35,13 @@ module Delayed
         end
 
         def self.after_fork
-          ::ActiveRecord::Base.establish_connection
+          ::ActiveRecord::Base.establish_connection(
+            :adapter => 'mysql',
+        	  :host => 'localhost',
+        	  :database => 'new_dev',
+        	  :username => 'root',
+        	  :password => ''
+          )
         end
 
         # When a worker is exiting, make sure we don't have any locked jobs.
