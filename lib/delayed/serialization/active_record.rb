@@ -2,12 +2,13 @@ class ActiveRecord::Base
   yaml_as "tag:ruby.yaml.org,2002:ActiveRecord"
 
   def self.yaml_new(klass, tag, val)
+    account = Account.find_by_subdomain(val['attributes']['current_subdomain'])
     ::ActiveRecord::Base.establish_connection(
-      :adapter => 'mysql',
-  	  :host => 'localhost',
-  	  :database => 'new_dev',
-  	  :username => 'root',
-  	  :password => ''
+		  :adapter	=> 'mysql',
+		  :host			=> account.database.host,
+		  :database	=> account.database.name,
+		  :username	=> account.database.username,
+		  :password	=> account.database.password
     )
 
     klass.find(val['attributes']['id'])

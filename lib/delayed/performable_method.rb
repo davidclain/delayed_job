@@ -5,12 +5,14 @@ module Delayed
     delegate :method, :to => :object
 
     def initialize(object, method_name, args)
+      account = Account.find_by_subdomain(object.account_subdomain)
       ::ActiveRecord::Base.establish_connection(
-        :adapter => 'mysql',
-    	  :host => 'localhost',
-    	  :database => 'new_dev',
-    	  :username => 'root',
-    	  :password => ''
+  		  :adapter	=> 'mysql',
+  		  :host			=> account.database.host,
+  		  :database	=> account.database.name,
+  		  :username	=> account.database.username,
+  		  :password	=> account.database.password
+      )
       )
 
       raise NoMethodError, "undefined method `#{method_name}' for #{object.inspect}" unless object.respond_to?(method_name, true)

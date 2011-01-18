@@ -37,12 +37,13 @@ module Delayed
         end
 
         def self.after_fork
+          account = Account.find_by_subdomain(self.account_subdomain)
           ::ActiveRecord::Base.establish_connection(
-            :adapter => 'mysql',
-        	  :host => 'localhost',
-        	  :database => 'new_dev',
-        	  :username => 'root',
-        	  :password => ''
+      		  :adapter	=> 'mysql',
+      		  :host			=> account.database.host,
+      		  :database	=> account.database.name,
+      		  :username	=> account.database.username,
+      		  :password	=> account.database.password
           )
         end
 
