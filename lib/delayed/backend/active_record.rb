@@ -37,7 +37,14 @@ module Delayed
         end
 
         def self.after_fork
-          ::ActiveRecord::Base.establish_connection
+          account = Account.find_by_subdomain('dev')
+          ::ActiveRecord::Base.establish_connection(
+      		  :adapter	=> 'mysql',
+      		  :host			=> account.database.host,
+      		  :database	=> account.database.name,
+      		  :username	=> account.database.username,
+      		  :password	=> account.database.password
+          )
         end
 
         # When a worker is exiting, make sure we don't have any locked jobs.
