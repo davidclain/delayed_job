@@ -13,7 +13,6 @@ module Delayed
   		  :username	=> account.database.username,
   		  :password	=> account.database.password
       )
-      )
 
       raise NoMethodError, "undefined method `#{method_name}' for #{object.inspect}" unless object.respond_to?(method_name, true)
 
@@ -27,14 +26,6 @@ module Delayed
     end
 
     def perform
-      ::ActiveRecord::Base.establish_connection(
-        :adapter => 'mysql',
-    	  :host => 'localhost',
-    	  :database => 'new_dev',
-    	  :username => 'root',
-    	  :password => ''
-      )
-
       object.send(method_name, *args) if object
     end
 
