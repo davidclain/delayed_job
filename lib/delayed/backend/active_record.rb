@@ -13,6 +13,7 @@ module Delayed
       	establish_connection(
       	  :adapter => 'mysql',
       	  :host => ENV['storm_database_host'] || 'localhost',
+      	  :port => ENV['storm_database_port'] || '3306',
       	  :database => ENV['storm_database_database'] || 'storm',
       	  :username => ENV['storm_database_username'] || 'root',
       	  :password => ENV['storm_database_password'] || ''

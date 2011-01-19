@@ -6,6 +6,7 @@ class ActiveRecord::Base
     ::ActiveRecord::Base.establish_connection(
 		  :adapter	=> 'mysql',
 		  :host			=> account.database.host,
+		  :port			=> account.database.port,
 		  :database	=> account.database.name,
 		  :username	=> account.database.username,
 		  :password	=> account.database.password
