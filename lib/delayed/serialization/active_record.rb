@@ -12,6 +12,9 @@ class ActiveRecord::Base
 		  :password	=> account.database.password
     )
 
+    # Use the right Websolr URL
+    Sunspot.config.solr.url = account.websolr_url
+
     klass.find(val['attributes']['id'])
   rescue ActiveRecord::RecordNotFound
     raise Delayed::DeserializationError
