@@ -1,5 +1,11 @@
 source 'http://rubygems.org'
 gemspec
 
-gem 'ruby-debug',   :platform => :ruby_18
-gem 'ruby-debug19', :platform => :ruby_19
+platforms :ruby do
+  gem 'sqlite3'
+end
+
+platforms :jruby do
+  gem 'jruby-openssl'
+  gem 'activerecord-jdbcsqlite3-adapter'
+end
