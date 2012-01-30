@@ -24,7 +24,8 @@ if defined?(ActiveRecord)
       else # Rails 2
         klass.with_exclusive_scope { klass.find(val['attributes'][klass.primary_key]) }
       end
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => e
+      Rails.logger.add(FATAL, e.message)
       raise Delayed::DeserializationError, "ActiveRecord::RecordNotFound, class: #{klass} , primary key: #{val['attributes'][klass.primary_key]} "
     end
 

@@ -71,7 +71,8 @@ module Delayed
         @name ||= payload_object.respond_to?(:display_name) ?
                     payload_object.display_name :
                     payload_object.class.name
-      rescue DeserializationError
+      rescue DeserializationError => e
+        Rails.logger.add(FATAL, e.message)
         ParseObjectFromYaml.match(handler)[1]
       end
 
@@ -94,6 +95,7 @@ module Delayed
             payload_object.perform
             hook :success
           rescue Exception => e
+            Rails.logger.add(FATAL, e.message)
             hook :error, e
             raise e
           ensure
@@ -114,7 +116,7 @@ module Delayed
           method.arity == 0 ? method.call : method.call(self, *args)
         end
       rescue DeserializationError
-        # do nothing
+        Rails.logger.add(FATAL, e.message)
       end
 
       def reschedule_at
