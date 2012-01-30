@@ -160,7 +160,7 @@ module Delayed
     def run(job)
       runtime =  Benchmark.realtime do
         Timeout.timeout(self.class.max_run_time.to_i) { job.invoke_job }
-        job.destroy
+#        job.destroy
       end
       say "#{job.name} completed after %.4f" % runtime
       return true  # did work
@@ -189,7 +189,7 @@ module Delayed
     def failed(job)
       self.class.lifecycle.run_callbacks(:failure, self, job) do
         job.hook(:failure)
-        self.class.destroy_failed_jobs ? job.destroy : job.fail!
+#        self.class.destroy_failed_jobs ? job.destroy : job.fail!
       end
     end
 
