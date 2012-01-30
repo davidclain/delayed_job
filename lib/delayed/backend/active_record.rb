@@ -34,11 +34,11 @@ module Delayed
         end
 
         def self.before_fork
-#          ::ActiveRecord::Base.clear_all_connections!
+          ::ActiveRecord::Base.clear_all_connections!
         end
 
         def self.after_fork
-#          ::ActiveRecord::Base.establish_connection
+          ::ActiveRecord::Base.establish_connection
         end
 
         # When a worker is exiting, make sure we don't have any locked jobs.
